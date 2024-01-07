@@ -3,13 +3,41 @@
  */
 package adv_of_code_2023
 
+import java.io.File
+import java.io.FileNotFoundException
+
+
 class Day1 {
-    val greeting: String
-        get() {
-            return "Hello World!"
+
+    // Initial Prompt was ( https://adventofcode.com/2023/day/1 ):
+    // I want to read a text file where each line contains charcters
+    // where a value can be found by combining the first digit and the
+    // last digit (in that order) to form a single two-digit number
+    // which alls should be added together.
+    // The digits may not be at the beginning or end of the line.
+    fun calculateSum(filename: String): Int {
+        var sum = 0
+        try {
+            File(filename).forEachLine { line ->
+                val digits = "\\d".toRegex().findAll(line).map { it.value.toInt() }.toList()
+                if (digits.size >= 2) {
+                    val firstDigit = digits.first()
+                    val lastDigit = digits.last()
+                    sum += firstDigit * 10 + lastDigit
+                }
+            }
+        } catch (e: FileNotFoundException) {
+            println("File not found: ${e.message}")
         }
+        return sum
+    }
 }
 
 fun main() {
-    println(Day1().greeting)
+    println("Current directory: ${System.getProperty("user.dir")}")
+
+    val day1 = Day1() 
+    val sum = day1.calculateSum("data/adv-code-2023-1-input.txt")
+    println("Sum: $sum")
+
 }
