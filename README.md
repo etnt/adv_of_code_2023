@@ -22,7 +22,7 @@ For the task of Day 2 I was not going to repeat the same mistake. Instead I
 thought of what functions I needed in a bottom-up fashion and wrote
 the prompts carefully. This time I got really good code in return from Co-Pilot.
 I verified each generated funtion with small tests before I went on with the
-next function. Again I was blown away with how well this worked. If continue
+next function. Again I was blown away with how well this worked. If it continues
 like this there is a risk I can't go back to the old (manual) way of writing code...
 
 [Day2 code](app/src/main/kotlin/adv_of_code_2023/Day2.kt)
