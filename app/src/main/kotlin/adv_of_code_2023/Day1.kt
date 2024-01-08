@@ -8,7 +8,7 @@ import java.io.FileNotFoundException
 
 
 class Day1 {
-
+    
     // Initial Prompt was ( https://adventofcode.com/2023/day/1 ):
     // I want to read a text file where each line contains charcters
     // where a value can be found by combining the first digit and the
@@ -19,25 +19,113 @@ class Day1 {
         var sum = 0
         try {
             File(filename).forEachLine { line ->
-                val digits = "\\d".toRegex().findAll(line).map { it.value.toInt() }.toList()
-                if (digits.size >= 2) {
-                    val firstDigit = digits.first()
-                    val lastDigit = digits.last()
-                    sum += firstDigit * 10 + lastDigit
-                }
+                sum += calculateLineSum(line)
             }
         } catch (e: FileNotFoundException) {
             println("File not found: ${e.message}")
         }
         return sum
     }
+    
+    private fun calculateLineSum(line: String): Int {
+        val digits = "\\d".toRegex().findAll(line).map { it.value.toInt() }.toList()
+        if (digits.size >= 1) {
+            val firstDigit = digits.first()
+            val lastDigit = digits.last()
+            return firstDigit * 10 + lastDigit
+        }
+        return 0
+    }
+
+    fun calculateSum2(filePath: String): Int {
+        var sum = 0
+
+        try {
+            File(filePath).forEachLine { line ->
+                var firstDigit = findFirstDigitOrSpelledOutDigit(line)
+                var lastDigit = findLastDigitOrSpelledOutDigit(line)
+                if (firstDigit != null && lastDigit != null) {
+                    sum += firstDigit * 10 + lastDigit
+                }
+            }
+        } catch (e: FileNotFoundException) {
+            println("File not found: ${e.message}")
+        }
+
+        return sum
+    }
+
+    fun findFirstDigitOrSpelledOutDigit(input: String): Int? {
+        val digitMap = mapOf(
+            "one" to 1,
+            "two" to 2,
+            "three" to 3,
+            "four" to 4,
+            "five" to 5,
+            "six" to 6,
+            "seven" to 7,
+            "eight" to 8,
+            "nine" to 9
+        )
+
+        var currentWord = ""
+        for (char in input) {
+            if (char.isDigit()) {
+                return Character.getNumericValue(char)
+            } else if (char.isLetter()) {
+                currentWord += char
+                if (digitMap.containsKey(currentWord)) {
+                    return digitMap[currentWord]
+                }
+            } else {
+                currentWord = ""
+            }
+        }
+
+        return null
+    }
+
+    fun findLastDigitOrSpelledOutDigit(input: String): Int? {
+        val digitMap = mapOf(
+            "eno" to 1,
+            "owt" to 2,
+            "eerht" to 3,
+            "ruof" to 4,
+            "evif" to 5,
+            "xis" to 6,
+            "neves" to 7,
+            "thgie" to 8,
+            "enin" to 9
+        )
+
+        var currentWord = ""
+        for (char in input.reversed()) {
+            if (char.isDigit()) {
+                return Character.getNumericValue(char)
+            } else if (char.isLetter()) {
+                currentWord = char + currentWord
+                if (digitMap.containsKey(currentWord)) {
+                    return digitMap[currentWord]
+                }
+            } else {
+                currentWord = ""
+            }
+        }
+
+        return null
+    }
+
 }
 
 fun main() {
     println("Current directory: ${System.getProperty("user.dir")}")
 
     val day1 = Day1() 
+
     val sum = day1.calculateSum("data/adv-code-2023-1-input.txt")
-    println("Sum: $sum")
+    println("Sum1: $sum")
+
+    val sum2 = day1.calculateSum2("data/adv-code-2023-1-input.txt")
+    println("Sum2: $sum2")
 
 }
