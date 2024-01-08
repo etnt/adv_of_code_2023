@@ -94,7 +94,7 @@ class Day1Test {
         tempFile.writeText(joinedList)
 
         // Call the method that calculates the sum
-        val sum = day1.calculateSum2(tempFile.absolutePath)
+        val sum = day1.calculateSum3(tempFile.absolutePath)
 
         // Check that the sum is correct
         assertEquals(281, sum)
@@ -107,7 +107,7 @@ class Day1Test {
     fun testSumWithLetters2() {
         val day1 = Day1()
 
-        val list = listOf("eightwothre","abcone2","nine")
+        val list = listOf("eightwothree","abcone2","nine")
         val joinedList = list.joinToString("\n")
 
         // Create a temporary file and write some test data to it
@@ -115,10 +115,10 @@ class Day1Test {
         tempFile.writeText(joinedList)
 
         // Call the method that calculates the sum
-        val sum = day1.calculateSum2(tempFile.absolutePath)
+        val sum = day1.calculateSum3(tempFile.absolutePath)
 
         // Check that the sum is correct
-        assertEquals(199, sum)
+        assertEquals(194, sum)
 
         // Delete the temporary file
         tempFile.delete()

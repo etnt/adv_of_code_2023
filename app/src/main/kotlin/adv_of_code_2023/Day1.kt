@@ -37,25 +37,20 @@ class Day1 {
         return 0
     }
 
-    fun calculateSum2(filePath: String): Int {
+    fun calculateSum3(filename: String): Int {
         var sum = 0
-
         try {
-            File(filePath).forEachLine { line ->
-                var firstDigit = findFirstDigitOrSpelledOutDigit(line)
-                var lastDigit = findLastDigitOrSpelledOutDigit(line)
-                if (firstDigit != null && lastDigit != null) {
-                    sum += firstDigit * 10 + lastDigit
-                }
+            File(filename).forEachLine { line ->
+                sum += calculateLineSum3(line)
             }
         } catch (e: FileNotFoundException) {
             println("File not found: ${e.message}")
         }
-
         return sum
     }
 
-    fun findFirstDigitOrSpelledOutDigit(input: String): Int? {
+    private fun calculateLineSum3(line: String): Int {
+        
         val digitMap = mapOf(
             "one" to 1,
             "two" to 2,
@@ -66,56 +61,51 @@ class Day1 {
             "seven" to 7,
             "eight" to 8,
             "nine" to 9
-        )
+        )   
+    
+        val sz = line.length - 1
+        val forward = 0..sz
+        val backward = sz downTo 0
+        var first = 0
+        var last = 0
 
-        var currentWord = ""
-        for (char in input) {
-            if (char.isDigit()) {
-                return Character.getNumericValue(char)
-            } else if (char.isLetter()) {
-                currentWord += char
-                if (digitMap.containsKey(currentWord)) {
-                    return digitMap[currentWord]
+        floop@ for (i in forward) {
+            if (line[i].isDigit()) {
+                first = line[i].digitToInt()
+                break
+            } else if (line[i].isLetter()) {
+                for (w in digitMap) {
+                    if (line.startsWith(w.key, startIndex = i)) {
+                        first = w.value
+                        break@floop
+                    }
                 }
-            } else {
-                currentWord = ""
             }
         }
 
-        return null
-    }
-
-    fun findLastDigitOrSpelledOutDigit(input: String): Int? {
-        val digitMap = mapOf(
-            "eno" to 1,
-            "owt" to 2,
-            "eerht" to 3,
-            "ruof" to 4,
-            "evif" to 5,
-            "xis" to 6,
-            "neves" to 7,
-            "thgie" to 8,
-            "enin" to 9
-        )
-
-        var currentWord = ""
-        for (char in input.reversed()) {
-            if (char.isDigit()) {
-                return Character.getNumericValue(char)
-            } else if (char.isLetter()) {
-                currentWord = char + currentWord
-                if (digitMap.containsKey(currentWord)) {
-                    return digitMap[currentWord]
+        bloop@ for (i in backward) {
+            if (line[i].isDigit()) {
+                last = line[i].digitToInt()
+                break
+            } else if (line[i].isLetter()) {
+                for (w in digitMap) {
+                    if (line.startsWith(w.key, startIndex = i)) {
+                        last = w.value
+                        break@bloop
+                    }
                 }
-            } else {
-                currentWord = ""
             }
         }
-
-        return null
+        if (first != 0 && last != 0) {
+            return "$first$last".toInt()
+        } else {
+            return 0
+        }
+        
     }
-
 }
+
+
 
 fun main() {
     println("Current directory: ${System.getProperty("user.dir")}")
@@ -125,7 +115,8 @@ fun main() {
     val sum = day1.calculateSum("data/adv-code-2023-1-input.txt")
     println("Sum1: $sum")
 
-    val sum2 = day1.calculateSum2("data/adv-code-2023-1-input.txt")
+    val sum2 = day1.calculateSum3("data/adv-code-2023-1-input.txt")
     println("Sum2: $sum2")
+
 
 }
