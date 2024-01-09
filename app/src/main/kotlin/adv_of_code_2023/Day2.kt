@@ -14,29 +14,42 @@ class Day2 {
     // invoke the processGame function. For every true result add the game numbers
     // together to form a final sum of all true game strings.
     //
-    fun processGamesFromFile(filename: String, predefinedMap: Map<String, Int>): Int {
+    fun processGamesFromFile(filename: String, predefinedMap: Map<String, Int>): Pair<Int,Int> {
         var sum = 0
+        var powersum = 0
 
         try {
             File(filename).readLines().forEach { line ->
-                val (gameNumber, result) = processGame(line, predefinedMap)
+                val gameResult = processGame(line, predefinedMap)
+                val (gameNumber, power) = gameResult.first
+                val result = gameResult.second
                 if (result) {
                     sum += gameNumber.toInt()
                 }
+
+                // Part 2
+                powersum += power
             }
         } catch (e: FileNotFoundException) {
             println("File not found: $filename")
         }
 
-        return sum
+        return sum to powersum
     }
 
-    fun processGame(gameString: String, predefinedMap: Map<String, Int>): Pair<String, Boolean> { 
+    fun processGame(gameString: String, predefinedMap: Map<String, Int>): Pair<Pair<String,Int>, Boolean> { 
 
         val (gameNumber, colorMaps) = parseGameString(gameString)
         val result = checkMaps(colorMaps, predefinedMap)
 
-        return gameNumber to result
+        // Part 2
+        val highestMap = highestValues(gameString)
+        var product = 1
+        for (value in highestMap.values) {
+            product *= value
+        }
+
+        return (gameNumber to product) to result
     }
 
     // Initial Prompt was ( https://adventofcode.com/2023/day/2 ):
@@ -79,6 +92,18 @@ class Day2 {
         return true
     }
 
+    fun highestValues(gameString: String): Map<String, Int> {
+        val colorMaps = parseGameString(gameString).second
+        val result = mutableMapOf<String, Int>()
+
+        colorMaps.forEach { map ->
+            map.forEach { (color, value) ->
+                result[color] = maxOf(value, result.getOrDefault(color, 0))
+            }
+        }
+        return result
+    }
+
 }
 
 
@@ -90,8 +115,11 @@ fun main() {
 
     val predefinedMap = mapOf("blue" to 14, "red" to 12, "green" to 13)
     val filename = "data/adv-code-2023-2-input.txt"
-    val sum = day2.processGamesFromFile(filename, predefinedMap)
+    val (sum,powersum) = day2.processGamesFromFile(filename, predefinedMap)
 
     println("Sum of game numbers for which all maps are less than or equal to the predefined map: $sum")
+    println("The sum of the power is: $powersum")
 
+    //val highestValues = day2.highestValues("Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green")    
+    //println("Highest values: $highestValues")
 }
