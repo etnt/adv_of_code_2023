@@ -120,6 +120,4 @@ fun main() {
     println("Sum of game numbers for which all maps are less than or equal to the predefined map: $sum")
     println("The sum of the power is: $powersum")
 
-    //val highestValues = day2.highestValues("Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green")    
-    //println("Highest values: $highestValues")
 }
