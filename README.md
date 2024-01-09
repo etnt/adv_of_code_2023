@@ -21,12 +21,12 @@ documentation and wrote part 2 the good old (manual) way.
 For the task of Day 2 I was not going to repeat the same mistake. Instead I
 thought of what functions I needed in a bottom-up fashion and wrote
 the prompts carefully. This time I got really good code in return from Co-Pilot.
-I verified each generated funtion with small tests before I went on with the
+I verified each generated function with small tests before I went on with the
 next function. 
 
 For the second part I realised that I just wanted to compute
-the max values of each color for each game string, multiply them and som up
-each line. Co-Pilot gave me to computation of the max values which I then just
+the max values of each color for each game string, multiply them and sum up
+each line. Co-Pilot gave me the computation of the max values which I then just
 had to fit into the existing code. I got a couple of errors, for example
 because I thought I could unpack nested pairs in the same way as for a
 single pair. Co-Pilot quickly explained my error and I could fix it.
