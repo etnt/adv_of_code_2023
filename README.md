@@ -22,8 +22,18 @@ For the task of Day 2 I was not going to repeat the same mistake. Instead I
 thought of what functions I needed in a bottom-up fashion and wrote
 the prompts carefully. This time I got really good code in return from Co-Pilot.
 I verified each generated funtion with small tests before I went on with the
-next function. Again I was blown away with how well this worked. If it continues
-like this there is a risk I can't go back to the old (manual) way of writing code...
+next function. 
+
+For the second part I realised that I just wanted to compute
+the max values of each color for each game string, multiply them and som up
+each line. Co-Pilot gave me to computation of the max values which I then just
+had to fit into the existing code. I got a couple of errors, for example
+because I thought I could unpack nested pairs in the same way as for a
+single pair. Co-Pilot quickly explained my error and I could fix it.
+
+Again I was blown away with how well this worked. If it continues
+like this there is a risk I can't go back to the old (manual) way of 
+writing code... :-P
 
 [Day2 code](app/src/main/kotlin/adv_of_code_2023/Day2.kt)
 [Day2 test](app/src/test/kotlin/adv_of_code_2023/Day2Test.kt)
